@@ -1,0 +1,31 @@
+// Main stylesheet.
+body {
+  font-family: serif;
+  line-height: 1.6;
+  color: #333;
+  background: #fdfdfd;
+}
+
+.wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.js-scale-btn {
+  padding: 5px 10px;
+  margin-right: 5px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.js-scale-btn.active {
+  background: #444;
+  color: white;
+  border-color: #444;
+}
+
+.font-bold {
+  font-weight: bold;
+}
