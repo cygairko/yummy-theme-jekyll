@@ -1,0 +1,265 @@
+@use "main";
+
+// Variables
+$font-family-serif: "Lora", serif;
+$font-family-sans: "Montserrat", sans-serif;
+$color-accent: #6a8e7f; // Sage
+$color-text: #333;
+$color-text-light: #666;
+
+// Typography Overrides
+body {
+  font-family: $font-family-sans;
+  color: $color-text;
+  background-color: #f8f7f4;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-family-serif;
+}
+
+// Global Header Overrides
+.site-header {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem 0;
+  //   background-color: #fff;
+
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+  }
+
+  .site-title {
+    font-family: $font-family-serif;
+    font-size: 3rem;
+    font-weight: bold;
+    color: $color-text;
+    text-decoration: none;
+  }
+
+  .site-nav .page-link {
+    font-family: $font-family-sans;
+    color: $color-text;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 1rem;
+
+    &:hover {
+      color: $color-accent;
+    }
+  }
+}
+
+// Recipe Layout
+.recipe-layout-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+// Recipe Header
+.recipe-header {
+  text-align: center;
+  margin-bottom: 40px;
+
+  .recipe-title {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .recipe-intro {
+    font-style: italic;
+    color: $color-text-light;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    font-family: $font-family-serif;
+  }
+
+  .recipe-metadata {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    background-color: $color-accent;
+    color: #fff;
+    padding: 15px 0;
+    border-radius: 4px;
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: $font-family-sans;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+      }
+    }
+  }
+}
+
+// Core Layout (Split)
+.recipe-content {
+  display: grid;
+  grid-template-columns: 35fr 65fr;
+  gap: 60px;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.recipe-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.recipe-image-container {
+  width: 100%;
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Ingredients Column
+.recipe-ingredients {
+  text-align: left;
+
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: $color-text-light;
+    border-bottom: 2px solid $color-accent;
+    display: inline-block;
+    padding-bottom: 5px;
+  }
+
+  .ingredient-group {
+    margin-bottom: 2rem;
+
+    h4 {
+      font-family: $font-family-sans;
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: $color-text;
+    }
+  }
+
+  .ingredient-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ingredient-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $color-accent;
+    }
+
+    &.checked {
+      text-decoration: line-through;
+      color: #aaa;
+
+      .check-circle {
+        background-color: $color-accent;
+        border-color: $color-accent;
+      }
+    }
+
+    .check-circle {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ddd;
+      border-radius: 50%;
+      margin-right: 15px;
+      flex-shrink: 0;
+      position: relative;
+      top: 2px;
+      transition: all 0.2s;
+    }
+  }
+}
+
+// Method Column
+.recipe-instructions {
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: $color-text-light;
+    border-bottom: 2px solid $color-accent;
+    display: inline-block;
+    padding-bottom: 5px;
+  }
+
+  .instruction-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: step-counter;
+  }
+
+  .instruction-step {
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    text-align: justify;
+
+    &::before {
+      counter-increment: step-counter;
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: $font-family-serif;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ddd;
+      line-height: 1;
+    }
+
+    strong {
+      font-weight: bold;
+      color: $color-text;
+    }
+
+    .temp-highlight {
+      color: $color-accent;
+      font-weight: bold;
+    }
+  }
+}

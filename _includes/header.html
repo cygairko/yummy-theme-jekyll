@@ -3,8 +3,13 @@
         <a class="site-title" rel="author" href="{{ " /" | relative_url }}">{{ site.title | escape }}</a>
         <nav class="site-nav">
             <div class="trigger">
-                <a class="page-link" href="/cooking/">Cooking</a>
-                <a class="page-link" href="/baking/">Baking</a>
+                {% for collection in site.collections %}
+                    {% unless collection.label == 'posts' %}
+                        <a class="page-link" href="{{ collection.label | prepend: "/" | append: "/" | relative_url }}">
+                            {{ collection.title | default: collection.label | capitalize }}
+                        </a>
+                    {% endunless %}
+                {% endfor %}
             </div>
         </nav>
     </div>
