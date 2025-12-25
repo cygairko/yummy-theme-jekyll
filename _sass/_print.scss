@@ -1,0 +1,58 @@
+/* Print Adjustments */
+@media print {
+
+    /* Hide non-essential elements */
+    .site-header,
+    .site-footer,
+    .post-navigation,
+    .portion-controls,
+    iframe,
+    video {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+        color: black;
+        font-size: 12pt;
+        font-family: serif;
+        /* Enforce serif for readability */
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+        font-size: 0.9em;
+        color: #555;
+    }
+
+    /* Don't show links for internal fragment identifiers or javascript */
+    a[href^="#"]:after,
+    a[href^="javascript:"]:after {
+        content: "";
+    }
+
+    /* Structural integrity */
+    .recipe-ingredients,
+    .recipe-instructions li,
+    .recipe-card {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    h1,
+    h2,
+    h3 {
+        color: black;
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    /* Layout Resets */
+    .page-content,
+    .wrapper {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: none !important;
+    }
+}

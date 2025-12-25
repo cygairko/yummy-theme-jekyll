@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: " en" }}">
+
+{% include head.html %}
+
+<body>
+
+    {% include header.html %}
+
+    <main class="page-content" aria-label="Content">
+        <div class="wrapper">
+            <article class="post">
+
+                <header class="post-header">
+                    <h1 class="post-title">{{ page.title | escape }}</h1>
+                    {% if page.image %}
+                    <div class="recipe-image-container">
+                        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" class="recipe-image">
+                    </div>
+                    {% endif %}
+
+                    <div class="recipe-meta">
+                        {% if page.prep_time %}<span>Prep: {{ page.prep_time }}</span>{% endif %}
+                        {% if page.cook_time %}<span>Cook: {{ page.cook_time }}</span>{% endif %}
+                        {% if page.yield %}<span>Yields: {{ page.yield }}</span>{% endif %}
+                    </div>
+
+                    <!-- Interactive Portion Calculator Controls -->
+                    <div class="portion-controls"
+                        style="margin: 1rem 0; padding: 0.5rem; background: #f9f9f9; border: 1px solid #eee; display: inline-block;">
+                        <strong>Portion Scale: </strong>
+                        <button class="js-scale-btn" data-scale="0.5">0.5x</button>
+                        <button class="js-scale-btn active font-bold" data-scale="1">1x</button>
+                        <button class="js-scale-btn" data-scale="2">2x</button>
+                    </div>
+
+                </header>
+
+                <div class="post-content">
+                    {{ content }}
+
+                    <div class="recipe-layout">
+
+                        <!-- Ingredients Section -->
+                        <section class="recipe-ingredients">
+                            <h2>Ingredients</h2>
+                            {% for part in page.ingredients_parts %}
+                            {% if part.name %}<h3>{{ part.name }}</h3>{% endif %}
+                            <ul>
+                                {% for ingredient in part.ingredients %}
+                                <li>
+                                    {% if ingredient.amount %}
+                                    <span class="js-portion-amount" data-base-amount="{{ ingredient.amount }}">{{
+                                        ingredient.amount }}</span>
+                                    {% endif %}
+                                    {{ ingredient.unit }} {{ ingredient.item }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endfor %}
+                        </section>
+
+                        <!-- Instructions Section -->
+                        {% if page.instructions %}
+                        <section class="recipe-instructions">
+                            <h2>Instructions</h2>
+                            <ol>
+                                {% for step in page.instructions %}
+                                <li>{{ step }}</li>
+                                {% endfor %}
+                            </ol>
+                        </section>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+            </article>
+        </div>
+    </main>
+
+    {% include footer.html %}
+
+    <script src="{{ '/assets/js/portion-calculator.js' | relative_url }}"></script>
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Recipe",
+      "name": "{{ page.title | escape }}",
+      "image": [
+        "{{ page.image | absolute_url }}"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "{{ site.title | escape }}"
+      },
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "description": "{{ page.excerpt | strip_html | strip_newlines | escape }}",
+      "prepTime": "{{ page.prep_time_iso }}",
+      "cookTime": "{{ page.cook_time_iso }}",
+      "totalTime": "{{ page.total_time_iso }}",
+      "recipeYield": "{{ page.yield }}",
+      "recipeIngredient": [
+        {% for part in page.ingredients_parts %}
+            {% for ingredient in part.ingredients %}
+            "{{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.item }}"{% unless forloop.last and forloop.parentloop.last %},{% endunless %}
+            {% endfor %}
+        {% endfor %}
+      ],
+      "recipeInstructions": [
+        {% for step in page.instructions %}
+        {
+          "@type": "HowToStep",
+          "text": "{{ step | escape }}"
+        }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    }
+    </script>
+
+</body>
+
+</html>
